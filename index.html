@@ -18,14 +18,22 @@
       font-family: 'GTKotoheim', 'Inter', -apple-system, sans-serif;
       height: 100vh; overflow: hidden;
     }
-    .logo { position: fixed; top: 30px; left: 40px; z-index: 100; }
+
+    /* ── Nav bar ── */
+    .logo {
+      position: fixed; top: 30px; left: 40px; z-index: 100;
+      cursor: pointer; opacity: 1; transition: opacity 0.2s;
+    }
+    .logo:hover { opacity: 0.7; }
     .logo svg { height: 26px; width: auto; display: block; }
+
     .page-title {
       position: fixed; top: 36px; left: 50%; transform: translateX(-50%);
       font-family: 'GTKotoheim', sans-serif; font-size: 11px;
       letter-spacing: 0.2em; text-transform: uppercase;
       color: #FFE800; z-index: 100; white-space: nowrap;
     }
+
     .progress {
       position: fixed; top: 40px; right: 40px;
       display: flex; gap: 6px; align-items: center;
@@ -33,10 +41,27 @@
     }
     .dot { width: 4px; height: 4px; border-radius: 50%; background: #1e1e1e; transition: background 0.4s ease, transform 0.4s ease; }
     .dot.active { background: #FFE800; transform: scale(1.3); }
+
+    /* ── Back / Forward arrows ── */
+    .nav-arrow {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 100;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease, color 0.2s ease;
+      color: #2a2a2a;
+    }
+    .nav-arrow:hover { color: #fff; }
+    .nav-arrow.visible { opacity: 1; pointer-events: all; }
+    .nav-prev { left: 20px; }
+    .nav-next { right: 20px; }
+    .nav-arrow svg { width: 20px; height: 20px; }
+
+    /* ── Screens ── */
     .screen {
       position: absolute; width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
-      flex-direction: column; padding: 80px 44px;
+      flex-direction: column; padding: 80px 80px;
       opacity: 0; transform: translateY(28px); pointer-events: none;
       transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
     }
@@ -44,6 +69,8 @@
     .screen.exit { opacity: 0; transform: translateY(-28px); pointer-events: none; }
     .step-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #252525; margin-bottom: 20px; }
     .screen-title { font-size: clamp(32px, 4.5vw, 56px); font-weight: 300; letter-spacing: -0.01em; text-align: center; margin-bottom: 48px; line-height: 1.1; }
+
+    /* ── Upload ── */
     .upload-zone {
       width: 100%; max-width: 460px; border: 1px solid #161616; border-radius: 2px;
       padding: 52px 40px; text-align: center; cursor: pointer;
@@ -65,6 +92,8 @@
     .file-name { font-size: 12px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 340px; }
     .file-remove { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #252525; cursor: pointer; transition: color 0.2s; flex-shrink: 0; margin-left: 12px; }
     .file-remove:hover { color: #777; }
+
+    /* ── Prompt ── */
     .prompt-wrap { width: 100%; max-width: 560px; }
     .prompt-wrap textarea {
       width: 100%; background: transparent; border: none; border-bottom: 1px solid #161616;
@@ -73,8 +102,19 @@
       min-height: 120px; transition: border-color 0.3s ease; caret-color: #FFE800;
     }
     .prompt-wrap textarea::placeholder { color: #1e1e1e; }
-    .prompt-wrap textarea:focus { border-color: #2e2e2e; }
-    .char-counter { font-size: 10px; letter-spacing: 0.1em; color: #1e1e1e; text-align: right; margin-top: 10px; }
+    .prompt-wrap textarea:focus { border-bottom-color: #2e2e2e; }
+    .word-counter {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 10px;
+    }
+    .word-count-text {
+      font-size: 10px; letter-spacing: 0.1em; color: #252525;
+      transition: color 0.3s ease;
+    }
+    .word-count-text.ready { color: #FFE800; }
+    .char-counter { font-size: 10px; letter-spacing: 0.1em; color: #1e1e1e; }
+
+    /* ── Personas ── */
     .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; max-width: 560px; }
     .persona-card:nth-child(5) { grid-column: 1 / -1; max-width: calc(50% - 4px); margin: 0 auto; width: 100%; }
     .persona-card { border: 1px solid #111; border-radius: 2px; padding: 20px 18px; cursor: pointer; transition: border-color 0.25s ease, background 0.25s ease; user-select: none; }
@@ -83,14 +123,17 @@
     .persona-name { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 7px; color: #888; transition: color 0.25s; }
     .persona-card.selected .persona-name { color: #FFE800; }
     .persona-desc { font-size: 13px; color: #fff; line-height: 1.45; font-weight: 300; }
+
+    /* ── Buttons ── */
     .btn {
       margin-top: 44px; padding: 13px 52px; background: transparent; border: 1px solid #1a1a1a;
       color: #444; font-family: 'GTKotoheim', sans-serif; font-size: 10px; letter-spacing: 0.22em;
       text-transform: uppercase; cursor: pointer; transition: border-color 0.25s ease, color 0.25s ease; border-radius: 1px;
     }
-    .btn:hover { border-color: #FFE800; color: #FFE800; }
-    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
-    .btn:disabled:hover { border-color: #1a1a1a; color: #444; }
+    .btn:hover:not(:disabled) { border-color: #FFE800; color: #FFE800; }
+    .btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+    /* ── Generating ── */
     .generating-screen {
       position: absolute; width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
@@ -108,11 +151,13 @@
     @keyframes pulse { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 1; transform: scale(1.4); } }
     .error-msg { font-size: 13px; color: #c0392b; margin-top: 12px; text-align: center; display: none; }
     .error-msg.visible { display: block; }
+
+    /* ── Response ── */
     .response-screen {
       position: absolute; width: 100%; height: 100%;
       display: flex; align-items: flex-start; justify-content: center;
       opacity: 0; pointer-events: none; transition: opacity 0.7s ease;
-      overflow-y: auto; padding: 100px 44px 80px;
+      overflow-y: auto; padding: 100px 80px 80px;
     }
     .response-screen.visible { opacity: 1; pointer-events: all; }
     .response-inner { width: 100%; max-width: 640px; display: flex; flex-direction: column; }
@@ -121,7 +166,21 @@
     .response-question { font-size: 12px; color: #333; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 360px; }
     .response-divider { width: 100%; height: 1px; background: #111; margin-bottom: 36px; }
     .response-body { font-size: 17px; font-weight: 300; line-height: 1.75; color: #d0d0d0; letter-spacing: 0.01em; white-space: pre-wrap; }
-    .response-actions { display: flex; gap: 12px; margin-top: 52px; padding-bottom: 20px; }
+
+    /* ── Rerun section ── */
+    .rerun-section { margin-top: 52px; padding-top: 36px; border-top: 1px solid #111; }
+    .rerun-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #252525; margin-bottom: 16px; }
+    .rerun-personas { display: flex; flex-wrap: wrap; gap: 8px; }
+    .rerun-btn {
+      padding: 8px 18px; background: transparent; border: 1px solid #1a1a1a;
+      color: #444; font-family: 'GTKotoheim', sans-serif; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer;
+      transition: border-color 0.25s ease, color 0.25s ease; border-radius: 1px;
+    }
+    .rerun-btn:hover { border-color: #FFE800; color: #FFE800; }
+    .rerun-btn.active-persona { border-color: #FFE800; color: #FFE800; }
+
+    .response-actions { display: flex; gap: 12px; margin-top: 32px; padding-bottom: 40px; }
     .btn-secondary { padding: 11px 32px; background: transparent; border: 1px solid #1a1a1a; color: #444; font-family: 'GTKotoheim', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer; transition: border-color 0.25s ease, color 0.25s ease; border-radius: 1px; }
     .btn-secondary:hover { border-color: #fff; color: #fff; }
     .btn-copy { padding: 11px 32px; background: transparent; border: 1px solid #1a1a1a; color: #444; font-family: 'GTKotoheim', sans-serif; font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; cursor: pointer; transition: border-color 0.25s ease, color 0.25s ease; border-radius: 1px; }
@@ -130,7 +189,8 @@
 </head>
 <body>
 
-  <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 2000 976.2" height="26" aria-label="Koto">
+  <!-- Nav -->
+  <div class="logo" onclick="startAgain()" title="Start again"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 2000 976.2" height="26" aria-label="Koto">
   <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
   <defs>
     <style>
@@ -146,6 +206,18 @@
     <div class="dot active" id="dot-0"></div>
     <div class="dot" id="dot-1"></div>
     <div class="dot" id="dot-2"></div>
+  </div>
+
+  <!-- Back / Forward arrows -->
+  <div class="nav-arrow nav-prev" id="nav-prev" onclick="goBack()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </div>
+  <div class="nav-arrow nav-next" id="nav-next" onclick="goForward()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
   </div>
 
   <!-- Screen 1 -->
@@ -171,10 +243,13 @@
     <div class="step-label">02 &mdash; 03</div>
     <h1 class="screen-title">Ask the hard question</h1>
     <div class="prompt-wrap">
-      <textarea id="prompt-input" placeholder="The sharper the question, the better the answer." maxlength="1000"></textarea>
-      <div class="char-counter"><span id="char-count">0</span> / 1000</div>
+      <textarea id="prompt-input" placeholder="The sharper the question, the better the answer." maxlength="2000"></textarea>
+      <div class="word-counter">
+        <span class="word-count-text" id="word-count-text">Minimum 20 words</span>
+        <span class="char-counter"><span id="word-count">0</span> words</span>
+      </div>
     </div>
-    <button class="btn" onclick="goTo(3)">Continue</button>
+    <button class="btn" id="btn-2" disabled onclick="goTo(3)">Continue</button>
   </div>
 
   <!-- Screen 3 -->
@@ -210,7 +285,7 @@
   <div class="generating-screen" id="generating">
     <div class="gen-label">Thinking as</div>
     <div class="gen-persona" id="gen-persona-label"></div>
-    <div class="gen-status" id="gen-status">Reading documents&hellip;</div>
+    <div class="gen-status" id="gen-status">Thinking&hellip;</div>
     <div class="pulse-dots"><span></span><span></span><span></span></div>
     <div class="error-msg" id="error-msg"></div>
   </div>
@@ -224,6 +299,19 @@
       </div>
       <div class="response-divider"></div>
       <div class="response-body" id="resp-body"></div>
+
+      <!-- Try another perspective -->
+      <div class="rerun-section">
+        <div class="rerun-label">Try another perspective</div>
+        <div class="rerun-personas">
+          <button class="rerun-btn" id="rerun-Client" onclick="rerun('Client')">Client</button>
+          <button class="rerun-btn" id="rerun-Competitor" onclick="rerun('Competitor')">Competitor</button>
+          <button class="rerun-btn" id="rerun-Koto Leadership" onclick="rerun('Koto Leadership')">Koto Leadership</button>
+          <button class="rerun-btn" id="rerun-End Customer" onclick="rerun('End Customer')">End Customer</button>
+          <button class="rerun-btn" id="rerun-Industry Expert" onclick="rerun('Industry Expert')">Industry Expert</button>
+        </div>
+      </div>
+
       <div class="response-actions">
         <button class="btn-copy" id="copy-btn" onclick="copyResponse()">Copy response</button>
         <button class="btn-secondary" onclick="startAgain()">Start again</button>
@@ -239,7 +327,13 @@
     let files = [];
     let persona = null;
     let currentResponse = '';
+    let currentScreen = 1;
+    let savedPrompt = '';
+    let savedDocumentText = '';
 
+    const PERSONAS = ['Client', 'Competitor', 'Koto Leadership', 'End Customer', 'Industry Expert'];
+
+    // ── File upload ──
     const zone = document.getElementById('upload-zone');
     const input = document.getElementById('file-input');
     input.addEventListener('change', e => addFiles(e.target.files));
@@ -248,7 +342,6 @@
     zone.addEventListener('drop', e => {
       e.preventDefault(); zone.classList.remove('drag-over'); addFiles(e.dataTransfer.files);
     });
-
     function addFiles(newFiles) {
       Array.from(newFiles).forEach(f => { if (!files.find(x => x.name === f.name)) files.push(f); });
       renderFiles();
@@ -262,24 +355,60 @@
         </div>`).join('');
     }
 
+    // ── Word count (min 20) ──
+    function countWords(text) {
+      return text.trim().split(/\s+/).filter(w => w.length > 0).length;
+    }
     document.getElementById('prompt-input').addEventListener('input', function () {
-      document.getElementById('char-count').textContent = this.value.length;
+      const words = countWords(this.value);
+      document.getElementById('word-count').textContent = words;
+      const ready = words >= 20;
+      document.getElementById('btn-2').disabled = !ready;
+      const label = document.getElementById('word-count-text');
+      label.textContent = ready ? 'Good to go' : 'Minimum 20 words';
+      label.classList.toggle('ready', ready);
     });
 
+    // ── Persona selection ──
     function pick(card, name) {
       document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       persona = name;
     }
 
-    function goTo(num) {
-      const current = document.querySelector('.screen.active');
-      const next = document.getElementById(`screen-${num}`);
-      current.classList.add('exit');
-      setTimeout(() => { current.classList.remove('active', 'exit'); next.classList.add('active'); }, 420);
-      document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i <= num - 1); });
+    // ── Nav arrows ──
+    function updateNav() {
+      document.getElementById('nav-prev').classList.toggle('visible', currentScreen > 1 && currentScreen <= 3);
+      document.getElementById('nav-next').classList.toggle('visible', currentScreen < 3);
     }
 
+    function goBack() {
+      if (currentScreen > 1) goTo(currentScreen - 1, true);
+    }
+
+    function goForward() {
+      if (currentScreen === 2 && countWords(document.getElementById('prompt-input').value) < 20) return;
+      if (currentScreen < 3) goTo(currentScreen + 1);
+    }
+
+    // ── Screen transitions ──
+    function goTo(num, backwards) {
+      const current = document.querySelector('.screen.active');
+      const next = document.getElementById('screen-' + num);
+      if (!next || current === next) return;
+      current.classList.add('exit');
+      setTimeout(() => {
+        current.classList.remove('active', 'exit');
+        next.classList.add('active');
+        currentScreen = num;
+        updateNav();
+      }, 420);
+      document.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i <= num - 1);
+      });
+    }
+
+    // ── File text extraction ──
     async function extractPDFText(file) {
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
@@ -291,13 +420,11 @@
       }
       return text;
     }
-
     async function extractDOCXText(file) {
       const arrayBuffer = await file.arrayBuffer();
       const result = await mammoth.extractRawText({ arrayBuffer });
       return result.value;
     }
-
     async function extractAllText(fileList) {
       const parts = [];
       for (const file of fileList) {
@@ -306,14 +433,27 @@
           let text = '';
           if (ext === 'pdf') text = await extractPDFText(file);
           else if (ext === 'docx' || ext === 'doc') text = await extractDOCXText(file);
-          if (text.trim()) parts.push(`--- Document: ${file.name} ---\n${text.trim()}`);
+          if (text.trim()) parts.push('--- Document: ' + file.name + ' ---\n' + text.trim());
         } catch (e) {
-          parts.push(`--- Document: ${file.name} ---\n[Could not read this file]`);
+          parts.push('--- Document: ' + file.name + ' ---\n[Could not read this file]');
         }
       }
       return parts.join('\n\n');
     }
 
+    // ── API call ──
+    async function callAPI(prompt, personaName, documentText) {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, persona: personaName, documentText })
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || 'API error');
+      return data.response;
+    }
+
+    // ── Submit ──
     async function submit() {
       const prompt = document.getElementById('prompt-input').value;
       const btn = document.getElementById('generate-btn');
@@ -321,6 +461,8 @@
       const current = document.querySelector('.screen.active');
       current.classList.add('exit');
       document.getElementById('progress').style.opacity = '0';
+      document.getElementById('nav-prev').classList.remove('visible');
+      document.getElementById('nav-next').classList.remove('visible');
 
       setTimeout(async () => {
         current.classList.remove('active', 'exit');
@@ -335,37 +477,75 @@
             documentText = await extractAllText(files);
             document.getElementById('gen-status').textContent = 'Generating response…';
           }
-          const res = await fetch('/api/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, persona, documentText })
-          });
-          const data = await res.json();
-          if (!res.ok || data.error) throw new Error(data.error || 'API error');
-          showResponse(data.response, prompt, persona);
+          savedPrompt = prompt;
+          savedDocumentText = documentText;
+          const response = await callAPI(prompt, persona, documentText);
+          showResponse(response, prompt, persona);
         } catch (err) {
-          const errEl = document.getElementById('error-msg');
-          errEl.textContent = err.message || 'Something went wrong. Please try again.';
-          errEl.classList.add('visible');
+          document.getElementById('error-msg').textContent = err.message || 'Something went wrong.';
+          document.getElementById('error-msg').classList.add('visible');
           btn.disabled = false;
         }
       }, 420);
     }
 
+    // ── Rerun with different persona ──
+    async function rerun(newPersona) {
+      persona = newPersona;
+
+      // Highlight active persona button
+      document.querySelectorAll('.rerun-btn').forEach(b => b.classList.remove('active-persona'));
+      const activeBtn = document.getElementById('rerun-' + newPersona);
+      if (activeBtn) activeBtn.classList.add('active-persona');
+
+      // Show generating state
+      const respScreen = document.getElementById('response-screen');
+      respScreen.classList.remove('visible');
+
+      const gen = document.getElementById('generating');
+      gen.style.display = '';
+      document.getElementById('gen-persona-label').textContent = newPersona;
+      document.getElementById('gen-status').textContent = 'Generating response…';
+      document.getElementById('error-msg').classList.remove('visible');
+      gen.classList.add('visible');
+
+      try {
+        const response = await callAPI(savedPrompt, newPersona, savedDocumentText);
+        showResponse(response, savedPrompt, newPersona);
+      } catch (err) {
+        document.getElementById('error-msg').textContent = err.message || 'Something went wrong.';
+        document.getElementById('error-msg').classList.add('visible');
+        // Fade back to response screen
+        setTimeout(() => {
+          gen.classList.remove('visible');
+          respScreen.classList.add('visible');
+        }, 1500);
+      }
+    }
+
+    // ── Show response ──
     function showResponse(text, prompt, personaName) {
       currentResponse = text;
-      document.getElementById('resp-persona-tag').textContent = personaName || persona;
+      document.getElementById('resp-persona-tag').textContent = personaName;
       document.getElementById('resp-question').textContent = prompt;
       document.getElementById('resp-body').textContent = text;
+
+      // Highlight current persona in rerun buttons
+      document.querySelectorAll('.rerun-btn').forEach(b => b.classList.remove('active-persona'));
+      const activeBtn = document.getElementById('rerun-' + personaName);
+      if (activeBtn) activeBtn.classList.add('active-persona');
+
       const gen = document.getElementById('generating');
       gen.classList.remove('visible');
       gen.classList.add('exit');
       setTimeout(() => {
         gen.style.display = 'none';
         document.getElementById('response-screen').classList.add('visible');
+        document.getElementById('response-screen').scrollTop = 0;
       }, 400);
     }
 
+    // ── Copy ──
     function copyResponse() {
       navigator.clipboard.writeText(currentResponse).then(() => {
         const btn = document.getElementById('copy-btn');
@@ -375,27 +555,39 @@
       });
     }
 
+    // ── Start again ──
     function startAgain() {
       files = []; persona = null; currentResponse = '';
+      savedPrompt = ''; savedDocumentText = '';
+      currentScreen = 1;
       document.getElementById('file-list').innerHTML = '';
       document.getElementById('prompt-input').value = '';
-      document.getElementById('char-count').textContent = '0';
+      document.getElementById('word-count').textContent = '0';
+      document.getElementById('word-count-text').textContent = 'Minimum 20 words';
+      document.getElementById('word-count-text').classList.remove('ready');
+      document.getElementById('btn-2').disabled = true;
       document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
-      document.getElementById('gen-persona-label').textContent = '';
-      document.getElementById('resp-body').textContent = '';
+      document.querySelectorAll('.rerun-btn').forEach(b => b.classList.remove('active-persona'));
       document.getElementById('generate-btn').disabled = false;
       document.getElementById('generating').style.display = '';
       document.getElementById('generating').classList.remove('visible', 'exit');
       document.getElementById('response-screen').classList.remove('visible');
       document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i === 0); });
       document.getElementById('progress').style.opacity = '1';
+      updateNav();
       setTimeout(() => {
         const s1 = document.getElementById('screen-1');
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active', 'exit'));
         s1.style.transform = 'translateY(28px)'; s1.style.opacity = '0';
         s1.classList.add('active');
-        requestAnimationFrame(() => requestAnimationFrame(() => { s1.style.transform = ''; s1.style.opacity = ''; }));
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          s1.style.transform = ''; s1.style.opacity = '';
+        }));
       }, 400);
     }
+
+    // Init
+    updateNav();
   </script>
 </body>
 </html>
