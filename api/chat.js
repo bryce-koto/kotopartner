@@ -1,13 +1,11 @@
 export default async function handler(req, res) {
 
-  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { prompt, persona } = req.body;
+  const { prompt, persona, documentText } = req.body;
 
-  // Each persona has its own system prompt telling Claude how to respond
   const systemPrompts = {
     'Client': `You are a client of Koto, a world-class brand strategy and identity agency. You are reviewing a piece of work or answering a question from their team. Respond as a sophisticated, demanding client — be honest, direct, and push for clarity and real-world impact. What would make this stronger from your perspective as the person paying for it? Be specific. Keep your response under 300 words.`,
 
@@ -22,6 +20,12 @@ export default async function handler(req, res) {
 
   const systemPrompt = systemPrompts[persona] || systemPrompts['Koto Leadership'];
 
+  // Build the message — include document text if provided
+  let messageContent = prompt;
+  if (documentText && documentText.trim().length > 0) {
+    messageContent = `The user has attached the following document(s) for you to review:\n\n${documentText}\n\n---\n\nUser's question: ${prompt}`;
+  }
+
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -35,7 +39,7 @@ export default async function handler(req, res) {
         max_tokens: 1024,
         system: systemPrompt,
         messages: [
-          { role: 'user', content: prompt }
+          { role: 'user', content: messageContent }
         ]
       })
     });
@@ -46,9 +50,7 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
-    const text = data.content[0].text;
-
-    return res.status(200).json({ response: text });
+    return res.status(200).json({ response: data.content[0].text });
 
   } catch (error) {
     return res.status(500).json({ error: 'Something went wrong. Please try again.' });
