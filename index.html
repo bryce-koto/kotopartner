@@ -11,372 +11,135 @@
       font-weight: 300;
       font-style: normal;
     }
-
-    *, *::before, *::after {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
-
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      background: #000;
-      color: #fff;
+      background: #000; color: #fff;
       font-family: 'GTKotoheim', 'Inter', -apple-system, sans-serif;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 100vh; overflow: hidden;
     }
-
-    /* ─── Logo ─── */
-    .logo {
-      position: fixed;
-      top: 30px;
-      left: 40px;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-    }
-
-    .logo svg {
-      height: 28px;
-      width: auto;
-      display: block;
-    }
-
-    /* ─── Progress ─── */
+    .logo { position: fixed; top: 30px; left: 40px; z-index: 100; }
+    .logo svg { height: 26px; width: auto; display: block; }
     .progress {
-      position: fixed;
-      top: 40px;
-      right: 40px;
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      z-index: 100;
-      transition: opacity 0.4s ease;
+      position: fixed; top: 40px; right: 40px;
+      display: flex; gap: 6px; align-items: center;
+      z-index: 100; transition: opacity 0.5s ease;
     }
-
     .dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: #1e1e1e;
+      width: 4px; height: 4px; border-radius: 50%; background: #1e1e1e;
       transition: background 0.4s ease, transform 0.4s ease;
     }
-
-    .dot.active {
-      background: #FFE800;
-      transform: scale(1.3);
-    }
-
-    /* ─── Screens ─── */
+    .dot.active { background: #FFE800; transform: scale(1.3); }
     .screen {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 80px 44px;
-      opacity: 0;
-      transform: translateY(28px);
-      pointer-events: none;
-      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1),
-                  transform 0.55s cubic-bezier(0.4,0,0.2,1);
+      position: absolute; width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; padding: 80px 44px;
+      opacity: 0; transform: translateY(28px); pointer-events: none;
+      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
     }
-
-    .screen.active {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: all;
-    }
-
-    .screen.exit {
-      opacity: 0;
-      transform: translateY(-28px);
-      pointer-events: none;
-    }
-
-    /* ─── Step label ─── */
-    .step-label {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #252525;
-      margin-bottom: 20px;
-    }
-
-    /* ─── Title ─── */
-    .screen-title {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: clamp(32px, 4.5vw, 56px);
-      font-weight: 300;
-      letter-spacing: -0.01em;
-      text-align: center;
-      margin-bottom: 48px;
-      line-height: 1.1;
-    }
-
-    /* ─── Screen 1: Upload ─── */
+    .screen.active { opacity: 1; transform: translateY(0); pointer-events: all; }
+    .screen.exit { opacity: 0; transform: translateY(-28px); pointer-events: none; }
+    .step-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #252525; margin-bottom: 20px; }
+    .screen-title { font-size: clamp(32px, 4.5vw, 56px); font-weight: 300; letter-spacing: -0.01em; text-align: center; margin-bottom: 48px; line-height: 1.1; }
     .upload-zone {
-      width: 100%;
-      max-width: 460px;
-      border: 1px solid #161616;
-      border-radius: 2px;
-      padding: 52px 40px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.3s ease, background 0.3s ease;
-      position: relative;
+      width: 100%; max-width: 460px; border: 1px solid #161616; border-radius: 2px;
+      padding: 52px 40px; text-align: center; cursor: pointer;
+      transition: border-color 0.3s ease, background 0.3s ease; position: relative;
     }
-
-    .upload-zone:hover,
-    .upload-zone.drag-over {
-      border-color: #2e2e2e;
-      background: #050505;
-    }
-
-    .upload-zone input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-    }
-
-    .upload-icon {
-      width: 24px;
-      height: 24px;
-      margin: 0 auto 16px;
-      opacity: 0.2;
-      display: block;
-    }
-
-    .upload-main {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 14px;
-      color: #555;
-      line-height: 1.6;
-    }
-
-    .upload-main strong {
-      color: #aaa;
-      font-weight: 300;
-    }
-
-    .upload-types {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      color: #1e1e1e;
-      text-transform: uppercase;
-      margin-top: 12px;
-    }
-
-    .file-list {
-      width: 100%;
-      max-width: 460px;
-      margin-top: 12px;
-    }
-
+    .upload-zone:hover, .upload-zone.drag-over { border-color: #2e2e2e; background: #050505; }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-icon { width: 24px; height: 24px; margin: 0 auto 16px; opacity: 0.2; display: block; }
+    .upload-main { font-size: 14px; color: #555; line-height: 1.6; }
+    .upload-main strong { color: #aaa; font-weight: 300; }
+    .upload-types { font-size: 10px; letter-spacing: 0.14em; color: #1e1e1e; text-transform: uppercase; margin-top: 12px; }
+    .file-list { width: 100%; max-width: 460px; margin-top: 12px; }
     .file-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      border: 1px solid #111;
-      border-radius: 2px;
-      margin-bottom: 6px;
-      animation: fadeUp 0.3s ease;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; border: 1px solid #111; border-radius: 2px;
+      margin-bottom: 6px; animation: fadeUp 0.3s ease;
     }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .file-name {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 12px;
-      color: #888;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 340px;
-      letter-spacing: 0.03em;
-    }
-
-    .file-remove {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #252525;
-      cursor: pointer;
-      transition: color 0.2s;
-      flex-shrink: 0;
-      margin-left: 12px;
-    }
-
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .file-name { font-size: 12px; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 340px; }
+    .file-remove { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #252525; cursor: pointer; transition: color 0.2s; flex-shrink: 0; margin-left: 12px; }
     .file-remove:hover { color: #777; }
-
-    /* ─── Screen 2: Prompt ─── */
-    .prompt-wrap {
-      width: 100%;
-      max-width: 560px;
-    }
-
+    .prompt-wrap { width: 100%; max-width: 560px; }
     .prompt-wrap textarea {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid #161616;
-      color: #fff;
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 20px;
-      font-weight: 300;
-      letter-spacing: 0.01em;
-      line-height: 1.65;
-      padding: 12px 0 20px;
-      resize: none;
-      outline: none;
-      min-height: 120px;
-      transition: border-color 0.3s ease;
-      caret-color: #FFE800;
+      width: 100%; background: transparent; border: none; border-bottom: 1px solid #161616;
+      color: #fff; font-family: 'GTKotoheim', sans-serif; font-size: 20px;
+      font-weight: 300; letter-spacing: 0.01em; line-height: 1.65;
+      padding: 12px 0 20px; resize: none; outline: none;
+      min-height: 120px; transition: border-color 0.3s ease; caret-color: #FFE800;
     }
-
     .prompt-wrap textarea::placeholder { color: #1e1e1e; }
     .prompt-wrap textarea:focus { border-color: #2e2e2e; }
-
-    .char-counter {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      color: #1e1e1e;
-      text-align: right;
-      margin-top: 10px;
-    }
-
-    /* ─── Screen 3: Persona ─── */
-    .persona-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 8px;
-      width: 100%;
-      max-width: 560px;
-    }
-
-    /* 5th card spans full width, centred */
-    .persona-card:nth-child(5) {
-      grid-column: 1 / -1;
-      max-width: calc(50% - 4px);
-      margin: 0 auto;
-      width: 100%;
-    }
-
+    .char-counter { font-size: 10px; letter-spacing: 0.1em; color: #1e1e1e; text-align: right; margin-top: 10px; }
+    .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; max-width: 560px; }
+    .persona-card:nth-child(5) { grid-column: 1 / -1; max-width: calc(50% - 4px); margin: 0 auto; width: 100%; }
     .persona-card {
-      border: 1px solid #111;
-      border-radius: 2px;
-      padding: 20px 18px;
-      cursor: pointer;
-      transition: border-color 0.25s ease, background 0.25s ease;
-      user-select: none;
+      border: 1px solid #111; border-radius: 2px; padding: 20px 18px;
+      cursor: pointer; transition: border-color 0.25s ease, background 0.25s ease; user-select: none;
     }
-
-    .persona-card:hover {
-      border-color: #2a2a2a;
-      background: #060606;
-    }
-
-    .persona-card.selected {
-      border-color: #FFE800;
-    }
-
-    .persona-name {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 11px;
-      font-weight: 300;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 7px;
-      color: #888;
-      transition: color 0.25s;
-    }
-
-    .persona-card.selected .persona-name {
-      color: #FFE800;
-    }
-
-    .persona-desc {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 13px;
-      color: #fff;
-      line-height: 1.45;
-      font-weight: 300;
-    }
-
-    /* ─── Button ─── */
+    .persona-card:hover { border-color: #2a2a2a; background: #060606; }
+    .persona-card.selected { border-color: #FFE800; }
+    .persona-name { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 7px; color: #888; transition: color 0.25s; }
+    .persona-card.selected .persona-name { color: #FFE800; }
+    .persona-desc { font-size: 13px; color: #fff; line-height: 1.45; font-weight: 300; }
     .btn {
-      margin-top: 44px;
-      padding: 13px 52px;
-      background: transparent;
-      border: 1px solid #1a1a1a;
-      color: #444;
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: border-color 0.25s ease, color 0.25s ease;
-      border-radius: 1px;
+      margin-top: 44px; padding: 13px 52px; background: transparent;
+      border: 1px solid #1a1a1a; color: #444; font-family: 'GTKotoheim', sans-serif;
+      font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+      cursor: pointer; transition: border-color 0.25s ease, color 0.25s ease; border-radius: 1px;
     }
-
-    .btn:hover {
-      border-color: #FFE800;
-      color: #FFE800;
+    .btn:hover { border-color: #FFE800; color: #FFE800; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { border-color: #1a1a1a; color: #444; }
+    .generating-screen {
+      position: absolute; width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 20px;
+      opacity: 0; pointer-events: none; transition: opacity 0.6s ease;
     }
-
-    /* ─── Success ─── */
-    .success-screen {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 12px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.6s ease;
+    .generating-screen.visible { opacity: 1; }
+    .generating-screen.exit { opacity: 0; }
+    .gen-label { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #252525; }
+    .gen-persona { font-size: 40px; font-weight: 300; letter-spacing: -0.01em; color: #fff; }
+    .pulse-dots { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
+    .pulse-dots span { width: 4px; height: 4px; border-radius: 50%; background: #FFE800; animation: pulse 1.2s ease-in-out infinite; }
+    .pulse-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .pulse-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 1; transform: scale(1.4); } }
+    .error-msg { font-size: 13px; color: #c0392b; margin-top: 12px; text-align: center; display: none; }
+    .error-msg.visible { display: block; }
+    .response-screen {
+      position: absolute; width: 100%; height: 100%;
+      display: flex; align-items: flex-start; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.7s ease;
+      overflow-y: auto; padding: 100px 44px 80px;
     }
-
-    .success-screen.visible { opacity: 1; }
-
-    .success-eyebrow {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #252525;
+    .response-screen.visible { opacity: 1; pointer-events: all; }
+    .response-inner { width: 100%; max-width: 640px; display: flex; flex-direction: column; }
+    .response-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+    .response-persona-tag { font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: #FFE800; border: 1px solid #FFE800; padding: 4px 10px; border-radius: 1px; white-space: nowrap; }
+    .response-question { font-size: 12px; color: #333; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 360px; }
+    .response-divider { width: 100%; height: 1px; background: #111; margin-bottom: 36px; }
+    .response-body { font-size: 17px; font-weight: 300; line-height: 1.75; color: #d0d0d0; letter-spacing: 0.01em; white-space: pre-wrap; }
+    .response-actions { display: flex; gap: 12px; margin-top: 52px; padding-bottom: 20px; }
+    .btn-secondary {
+      padding: 11px 32px; background: transparent; border: 1px solid #1a1a1a; color: #444;
+      font-family: 'GTKotoheim', sans-serif; font-size: 10px; letter-spacing: 0.22em;
+      text-transform: uppercase; cursor: pointer; transition: border-color 0.25s ease, color 0.25s ease; border-radius: 1px;
     }
-
-    .success-title {
-      font-family: 'GTKotoheim', sans-serif;
-      font-size: 40px;
-      font-weight: 300;
-      letter-spacing: -0.01em;
-      color: #fff;
+    .btn-secondary:hover { border-color: #fff; color: #fff; }
+    .btn-copy {
+      padding: 11px 32px; background: transparent; border: 1px solid #1a1a1a; color: #444;
+      font-family: 'GTKotoheim', sans-serif; font-size: 10px; letter-spacing: 0.22em;
+      text-transform: uppercase; cursor: pointer; transition: border-color 0.25s ease, color 0.25s ease; border-radius: 1px;
     }
+    .btn-copy:hover, .btn-copy.copied { border-color: #FFE800; color: #FFE800; }
   </style>
 </head>
 <body>
 
-  <!-- Logo -->
-  <div class="logo">
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 2000 976.2" height="28" aria-label="Koto">
+  <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 2000 976.2" height="26" aria-label="Koto">
   <!-- Generator: Adobe Illustrator 30.0.0, SVG Export Plug-In . SVG Version: 2.1.1 Build 123)  -->
   <defs>
     <style>
@@ -386,11 +149,9 @@
     </style>
   </defs>
   <path class="st0" d="M547.7,0c25,0,38.6,31.6,20.5,49.6L250,365.4c-11.4,11.3-11.4,29.3,0,40.6l318.2,315.8c18.2,18,4.5,49.6-20.5,49.6h-113.6c-6.8,0-15.9-2.3-20.5-9l-227.3-225.6c-18.2-18-50-4.5-50,20.3v185c0,15.8-13.6,29.3-29.5,29.3H29.5c-15.9,0-29.5-13.5-29.5-29.3V29.3C0,13.5,13.6,0,29.5,0h79.5c15.9,0,29.5,13.5,29.5,29.3v187.2c0,24.8,31.8,38.3,50,20.3L415.9,9c4.5-6.8,11.4-9,20.5-9h111.4ZM772.7,516.6c72.7,0,131.8-58.7,131.8-130.8s-59.1-130.8-131.8-130.8-131.8,58.6-131.8,130.8,59.1,130.8,131.8,130.8ZM772.7,117.3c147.7,0,270.5,119.6,270.5,268.4-2.3,146.6-122.7,268.4-270.5,268.4s-270.5-119.6-270.5-268.4,120.5-268.4,270.5-268.4ZM1729.5,516.6c72.7,0,131.8-58.7,131.8-130.8s-59.1-130.8-131.8-130.8-131.8,58.6-131.8,130.8,59.1,130.8,131.8,130.8ZM1729.5,117.3c147.7,0,270.5,119.6,270.5,268.4s-120.5,268.4-270.5,268.4-270.5-119.6-270.5-268.4,122.7-268.4,270.5-268.4ZM1436.4,615.8v-79c0-15.8-13.6-29.3-29.5-29.3h-56.8c-15.9,0-29.5-13.5-29.5-29.3V155.6c0-15.8-13.6-29.3-29.5-29.3h-79.5c-15.9,0-29.5,13.5-29.5,29.3v322.6c0,15.8-13.6,29.3-29.5,29.3h-56.8c-15.9,0-29.5,13.5-29.5,29.3v79c0,15.8,13.6,29.3,29.5,29.3h311.4c15.9-2.3,29.5-13.5,29.5-29.3ZM1681.8,807.6c-2.3-11.3-13.6-15.8-22.7-13.5-268.2,60.9-547.7,60.9-815.9,0-11.4-2.3-20.5,4.5-22.7,13.5-6.8,31.6-15.9,63.2-22.7,94.7-2.3,11.3,4.5,20.3,15.9,24.8,288.6,65.4,588.6,65.4,877.3,0,11.4-2.3,18.2-13.5,15.9-22.6-9.1-33.8-15.9-65.4-25-97Z"/>
-</svg>
-  </div>
+</svg></div>
 
-  <!-- Progress -->
-  <div class="progress">
+  <div class="progress" id="progress">
     <div class="dot active" id="dot-0"></div>
     <div class="dot" id="dot-1"></div>
     <div class="dot" id="dot-2"></div>
@@ -400,7 +161,6 @@
   <div class="screen active" id="screen-1">
     <div class="step-label">01 &mdash; 03</div>
     <h1 class="screen-title">Bring the brief</h1>
-
     <div class="upload-zone" id="upload-zone">
       <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx">
       <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
@@ -411,7 +171,6 @@
       <div class="upload-main"><strong>Drop files here</strong> or click to browse</div>
       <div class="upload-types">PDF &nbsp;&middot;&nbsp; DOC &nbsp;&middot;&nbsp; DOCX</div>
     </div>
-
     <div class="file-list" id="file-list"></div>
     <button class="btn" onclick="goTo(2)">Continue</button>
   </div>
@@ -420,16 +179,10 @@
   <div class="screen" id="screen-2">
     <div class="step-label">02 &mdash; 03</div>
     <h1 class="screen-title">Ask the hard question</h1>
-
     <div class="prompt-wrap">
-      <textarea
-        id="prompt-input"
-        placeholder="The sharper the question, the better the answer."
-        maxlength="1000"
-      ></textarea>
+      <textarea id="prompt-input" placeholder="The sharper the question, the better the answer." maxlength="1000"></textarea>
       <div class="char-counter"><span id="char-count">0</span> / 1000</div>
     </div>
-
     <button class="btn" onclick="goTo(3)">Continue</button>
   </div>
 
@@ -437,7 +190,6 @@
   <div class="screen" id="screen-3">
     <div class="step-label">03 &mdash; 03</div>
     <h1 class="screen-title">Who should push back?</h1>
-
     <div class="persona-grid">
       <div class="persona-card" onclick="pick(this, 'Client')">
         <div class="persona-name">Client</div>
@@ -460,56 +212,58 @@
         <div class="persona-desc">What would a category authority challenge or question?</div>
       </div>
     </div>
-
-    <button class="btn" onclick="submit()">Generate</button>
+    <button class="btn" id="generate-btn" onclick="submit()">Generate</button>
   </div>
 
-  <!-- Success -->
-  <div class="success-screen" id="success">
-    <div class="success-eyebrow">Working</div>
-    <div class="success-title">Generating&hellip;</div>
+  <!-- Generating -->
+  <div class="generating-screen" id="generating">
+    <div class="gen-label">Thinking as</div>
+    <div class="gen-persona" id="gen-persona-label"></div>
+    <div class="pulse-dots"><span></span><span></span><span></span></div>
+    <div class="error-msg" id="error-msg">Something went wrong. Please try again.</div>
+  </div>
+
+  <!-- Response -->
+  <div class="response-screen" id="response-screen">
+    <div class="response-inner">
+      <div class="response-meta">
+        <span class="response-persona-tag" id="resp-persona-tag"></span>
+        <span class="response-question" id="resp-question"></span>
+      </div>
+      <div class="response-divider"></div>
+      <div class="response-body" id="resp-body"></div>
+      <div class="response-actions">
+        <button class="btn-copy" id="copy-btn" onclick="copyResponse()">Copy response</button>
+        <button class="btn-secondary" onclick="startAgain()">Start again</button>
+      </div>
+    </div>
   </div>
 
   <script>
     let files = [];
     let persona = null;
+    let currentResponse = '';
 
     const zone = document.getElementById('upload-zone');
     const input = document.getElementById('file-input');
-
     input.addEventListener('change', e => addFiles(e.target.files));
-
-    zone.addEventListener('dragover', e => {
-      e.preventDefault();
-      zone.classList.add('drag-over');
-    });
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
     zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
     zone.addEventListener('drop', e => {
-      e.preventDefault();
-      zone.classList.remove('drag-over');
-      addFiles(e.dataTransfer.files);
+      e.preventDefault(); zone.classList.remove('drag-over'); addFiles(e.dataTransfer.files);
     });
 
     function addFiles(newFiles) {
-      Array.from(newFiles).forEach(f => {
-        if (!files.find(x => x.name === f.name)) files.push(f);
-      });
+      Array.from(newFiles).forEach(f => { if (!files.find(x => x.name === f.name)) files.push(f); });
       renderFiles();
     }
-
-    function removeFile(i) {
-      files.splice(i, 1);
-      renderFiles();
-    }
-
+    function removeFile(i) { files.splice(i, 1); renderFiles(); }
     function renderFiles() {
-      const list = document.getElementById('file-list');
-      list.innerHTML = files.map((f, i) => `
+      document.getElementById('file-list').innerHTML = files.map((f, i) => `
         <div class="file-item">
           <span class="file-name">${f.name}</span>
           <span class="file-remove" onclick="removeFile(${i})">Remove</span>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
     document.getElementById('prompt-input').addEventListener('input', function () {
@@ -535,21 +289,96 @@
       });
     }
 
-    function submit() {
+    async function submit() {
+      const prompt = document.getElementById('prompt-input').value;
+      const btn = document.getElementById('generate-btn');
+      btn.disabled = true;
+
       const current = document.querySelector('.screen.active');
       current.classList.add('exit');
-      setTimeout(() => {
+      document.getElementById('progress').style.opacity = '0';
+
+      setTimeout(async () => {
         current.classList.remove('active', 'exit');
-        document.getElementById('success').classList.add('visible');
-        document.querySelector('.progress').style.opacity = '0';
+        document.getElementById('gen-persona-label').textContent = persona;
+        document.getElementById('generating').classList.add('visible');
+        document.getElementById('error-msg').classList.remove('visible');
+
+        try {
+          const res = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, persona })
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || data.error) {
+            throw new Error(data.error || 'API error');
+          }
+
+          showResponse(data.response, prompt, persona);
+
+        } catch (err) {
+          document.getElementById('error-msg').classList.add('visible');
+          document.getElementById('error-msg').textContent = err.message || 'Something went wrong. Please try again.';
+          btn.disabled = false;
+        }
       }, 420);
-      console.log({
-        files: files.map(f => f.name),
-        prompt: document.getElementById('prompt-input').value,
-        persona
+    }
+
+    function showResponse(text, prompt, personaName) {
+      currentResponse = text;
+      document.getElementById('resp-persona-tag').textContent = personaName || persona;
+      document.getElementById('resp-question').textContent = prompt;
+      document.getElementById('resp-body').textContent = text;
+
+      const gen = document.getElementById('generating');
+      gen.classList.remove('visible');
+      gen.classList.add('exit');
+
+      setTimeout(() => {
+        gen.style.display = 'none';
+        document.getElementById('response-screen').classList.add('visible');
+      }, 400);
+    }
+
+    function copyResponse() {
+      navigator.clipboard.writeText(currentResponse).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy response'; btn.classList.remove('copied'); }, 2000);
       });
     }
-  </script>
 
+    function startAgain() {
+      files = []; persona = null; currentResponse = '';
+      document.getElementById('file-list').innerHTML = '';
+      document.getElementById('prompt-input').value = '';
+      document.getElementById('char-count').textContent = '0';
+      document.querySelectorAll('.persona-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('gen-persona-label').textContent = '';
+      document.getElementById('resp-body').textContent = '';
+      document.getElementById('generate-btn').disabled = false;
+      document.getElementById('generating').style.display = '';
+      document.getElementById('generating').classList.remove('visible', 'exit');
+
+      const resp = document.getElementById('response-screen');
+      resp.classList.remove('visible');
+      document.querySelectorAll('.dot').forEach((d, i) => { d.classList.toggle('active', i === 0); });
+      document.getElementById('progress').style.opacity = '1';
+
+      setTimeout(() => {
+        const s1 = document.getElementById('screen-1');
+        s1.style.transform = 'translateY(28px)';
+        s1.style.opacity = '0';
+        s1.classList.add('active');
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          s1.style.transform = ''; s1.style.opacity = '';
+        }));
+      }, 400);
+    }
+  </script>
 </body>
 </html>
